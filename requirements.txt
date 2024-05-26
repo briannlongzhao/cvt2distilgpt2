@@ -1,7 +1,7 @@
 dlhpcstarter==0.1.2
 einops==0.3.2
 pycocoevalcap
-pycocotools
+pycocotools==2.0.7
 timm==0.4.12
-transformers==4.35.2
+transformers==4.16.0
 yacs==0.1.8

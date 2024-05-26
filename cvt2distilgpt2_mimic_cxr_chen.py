@@ -14,6 +14,7 @@ from tools.dataset.mimc_cxr_chen import TaskSubset
 from tools.dataset.mimic_cxr_chen_tokenizer import TokenizerChen
 from tools.encoder_projection import EncoderPermuteProject
 from tools.metrics.chexbert import CheXbertMetrics
+from tools.metrics.chexpert import CheXpertMetrics
 from tools.metrics.coco import COCOCaptionMetrics
 from tools.metrics.report_logger import ReportLogger
 
@@ -87,6 +88,22 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
             exp_dir=self.exp_dir_trial,
         )
         self.test_chexbert_metrics = CheXbertMetrics(
+            bert_path='bert-base-uncased',
+            checkpoint_path='stanford/chexbert/chexbert.pth',
+            ckpt_dir=self.ckpt_zoo_dir,
+            mbatch_size=self.mbatch_size,
+            exp_dir=self.exp_dir_trial,
+        )
+
+        # CheXpert classification metrics:
+        self.val_chexpert_metrics = CheXpertMetrics(
+            bert_path='bert-base-uncased',
+            checkpoint_path='stanford/chexbert/chexbert.pth',
+            ckpt_dir=self.ckpt_zoo_dir,
+            mbatch_size=self.mbatch_size,
+            exp_dir=self.exp_dir_trial,
+        )
+        self.test_chexpert_metrics = CheXpertMetrics(
             bert_path='bert-base-uncased',
             checkpoint_path='stanford/chexbert/chexbert.pth',
             ckpt_dir=self.ckpt_zoo_dir,
@@ -376,7 +393,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
 
         return outputs.logits
 
-    def generate(self, num_beams, images):
+    def generate(self, num_beams, images, prompts=None):
         """
         Autoregressively generate a prediction.
 
@@ -389,6 +406,15 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
         """
 
         encoder_outputs = self.encoder_forward(images)
+        input_ids = None
+        if prompts is not None:
+            input_ids = self.tokenizer(
+                prompts,
+                return_tensors="pt",
+                add_special_tokens=False,
+                padding="max_length",
+                max_length=576,
+            )["input_ids"].to(self.decoder.encoder_decoder.device)
 
         outputs = self.decoder.encoder_decoder.generate(
             # special_token_ids=[self.tokenizer.sep_token_id],
@@ -401,6 +427,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
             return_dict_in_generate=True,
             use_cache=True,
             encoder_outputs=encoder_outputs,
+            inputs=input_ids
         )
 
         return outputs['sequences']
@@ -444,6 +471,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
 
         # Evaluate:
         self.val_chexbert_metrics.update(generated, batch['labels'], ids=batch['id'])
+        self.val_chexpert_metrics.update(generated, batch['labels'], ids=batch['id'])
         self.val_coco_metrics.update(generated, [[i] for i in batch['labels']], ids=batch['id'])
 
     def on_validation_epoch_end(self):
@@ -472,7 +500,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
         """
 
         # Beam search:
-        output_ids = self.generate(self.num_test_beams, batch['encoder_images'])
+        output_ids = self.generate(self.num_test_beams, batch['encoder_images'], batch.get("prompt"))
 
         # Generated report:
         generated = self.tokenizer.batch_decode(output_ids, skip_special_tokens=True)
@@ -498,6 +526,9 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
         output = self.test_chexbert_metrics.compute()
         scores.update(output)
         self.test_chexbert_metrics.reset()
+        output = self.test_chexpert_metrics.compute()
+        scores.update(output)
+        self.test_chexpert_metrics.reset()
 
         output = self.test_coco_metrics.compute()
         scores.update(output)
