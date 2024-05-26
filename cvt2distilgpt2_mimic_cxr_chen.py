@@ -61,7 +61,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
             "annotation.json",
         )
         self.dataset_dir = os.path.join(
-            self.work_dir
+            self.work_dir,
             self.dataset_dir,
             "mimic_cxr_jpg",
             "physionet.org",
