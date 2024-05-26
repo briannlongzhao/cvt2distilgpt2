@@ -33,6 +33,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
             num_test_beams: int,
             prefetch_factor: int = 5,
             num_workers: int = 0,
+            skip_data: bool = False,
             **kwargs,
     ):
         super().__init__()
@@ -48,6 +49,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
         self.num_test_beams = num_test_beams
         self.prefetch_factor = prefetch_factor
         self.num_workers = num_workers
+        self.skip_data = skip_data
 
         # Paths:
         self.labels_file_path = os.path.join(
@@ -226,6 +228,10 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
         """
         https://pytorch-lightning.readthedocs.io/en/stable/common/lightning_module.html#setup
         """
+
+        if self.skip_data:
+            print("skip setting up data")
+            return
 
         with open(self.labels_file_path) as f:
             examples = json.load(f)
