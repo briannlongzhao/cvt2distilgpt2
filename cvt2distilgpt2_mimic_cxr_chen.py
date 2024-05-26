@@ -510,6 +510,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
 
         # Evaluate:
         self.test_chexbert_metrics.update(generated, batch['labels'], ids=batch['id'])
+        self.test_chexpert_metrics.update(generated, batch['labels'], ids=batch['id'])
         self.test_coco_metrics.update(generated, [[i] for i in batch['labels']], ids=batch['id'])
 
     def on_test_epoch_end(self):
