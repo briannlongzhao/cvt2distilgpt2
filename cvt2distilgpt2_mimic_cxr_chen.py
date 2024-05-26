@@ -42,7 +42,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
         self.warm_start_modules = warm_start_modules
         self.exp_dir_trial = exp_dir_trial
         self.dataset_dir = dataset_dir
-        self.ckpt_zoo_dir = os.path.join(workdir, ckpt_zoo_dir)
+        self.ckpt_zoo_dir = os.path.join(work_dir, ckpt_zoo_dir)
         self.mbatch_size = mbatch_size
         self.encoder_lr = encoder_lr
         self.decoder_lr = decoder_lr
