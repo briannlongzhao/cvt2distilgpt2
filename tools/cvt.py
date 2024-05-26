@@ -38,6 +38,7 @@ class CvT(Module):
             is_encoder: bool = False,
             freeze_domain_params: bool = False,
             ckpt_dir: Optional[str] = None,
+            work_dir: Optional[str] = None,
             **kwargs,
     ):
         """
@@ -60,7 +61,7 @@ class CvT(Module):
 
         # CvT
         args = Namespace(
-            cfg=os.path.join("tools", "ext", "cvt", "experiments", "imagenet", "cvt", model_config + ".yaml"))
+            cfg=os.path.join(work_dir, "tools", "ext", "cvt", "experiments", "imagenet", "cvt", model_config + ".yaml"))
         _update_config_from_file(config, args.cfg)
         self.cvt = build_model(config)
         if self.warm_start:
