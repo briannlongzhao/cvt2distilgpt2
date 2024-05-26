@@ -8,7 +8,7 @@ from lightning.pytorch import LightningModule
 from torch.utils.data import DataLoader
 from torchvision import transforms
 from transformers.configuration_utils import PretrainedConfig
-sys.path.append(__file__)
+sys.path.append(os.path.dirname(__file__))
 from tools.cvt import CvT
 from tools.dataset.mimic_cxr_chen import TaskSubset
 from tools.dataset.mimic_cxr_chen_tokenizer import TokenizerChen
