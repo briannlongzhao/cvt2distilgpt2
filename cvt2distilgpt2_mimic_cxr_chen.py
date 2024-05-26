@@ -128,6 +128,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
             ckpt_name='CvT-21-384x384-IN-22k',
             ckpt_dir=self.ckpt_zoo_dir,
             is_encoder=True,
+            work_dir=self.work_dir,
         )
         self.encoder_projection = EncoderPermuteProject(
             permute_encoder_last_hidden_state=[0, 2, 1],
