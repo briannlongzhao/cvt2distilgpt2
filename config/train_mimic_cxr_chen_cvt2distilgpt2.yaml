@@ -3,7 +3,7 @@ dataset_dir: datasets
 ckpt_zoo_dir: checkpoints
 # venv_path: venv/bin/activate  # If using a SLURM cluster, uncomment this line.
 
-devices: 4
+devices: 1
 num_nodes: 1
 num_workers: 5
 strategy: ddp_find_unused_parameters_true

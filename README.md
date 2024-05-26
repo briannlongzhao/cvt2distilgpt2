@@ -40,9 +40,9 @@ python -m pip install --upgrade -r requirements.txt --no-cache-dir
 
 ## Model checkpoints:
  CvT2DistilGPT2 checkpoints for MIMIC-CXR and IU X-Ray can be found at: https://doi.org/10.25919/ng3g-aj81 (click on the *files* tab to download individual checkpoints). 
- 
+
  Place the checkpoints in the checkpoint directory for each model of each task, e.g., place the checkpoint:
-  
+
  ![](docs/example.png)
 
   at the path: `checkpoints/mimic_cxr_jpg_chen/cvt_21_to_gpt2/epoch=8-val_chen_cider=0.425092.ckpt`.
@@ -54,7 +54,7 @@ python -m pip install --upgrade -r requirements.txt --no-cache-dir
 Download the CheXbert checkpoint from https://github.com/stanfordmlgroup/CheXbert for the CE metrics.
 
 Place the checkpoint at `checkpoints/stanford/chexbert/chexbert.pth`.
-  
+
 
 ## Datasets:   
 
@@ -169,7 +169,7 @@ The results should be similar to the following presented results:
     │  test_chen_num_examples   │           590.0           │
     │      test_chen_rouge      │    0.3761140813853112     │
     └───────────────────────────┴───────────────────────────┘
-
+    
     ```
 
  - The generated reports are given in: `experiment/test_iu_x_ray_chen_cvt2distilgpt2/trial_0/generated_reports/test_reports_epoch-0_16-05-2023_12-46-42.csv`
@@ -180,7 +180,7 @@ The results should be similar to the following presented results:
 
 ### CvT-21 Checkpoint:
 
-Download `CvT-21-384x384-IN-22k.pth` from this [Microsoft model zoo](https://onedrive.live.com/?authkey=%21AMXesxbtKwsdryE&id=56B9F9C97F261712%2115004&cid=56B9F9C97F261712) and place it in `checkpoints` such that its path is `checkpoints/CvT-21-384x384-IN-22k.pth`
+Download `CvT-21-384x384-IN-22k.pth` from this [Microsoft model zoo](https://onedrive.live.com/?authkey=%21AMXesxbtKwsdryE&id=56B9F9C97F261712%2115004&cid=56B9F9C97F261712) and place it in `checkpoints` such that its path is `checkpoints/microsoft/CvT/CvT-21-384x384-IN-22k.pth`
 
 ### DistilGPT2 Checkpoint:
 
@@ -190,15 +190,15 @@ To download everything, you can use `git clone https://huggingface.co/distilgpt2
 
 
 ## Run training:
-   
+
 To train with MIMIC-CXR with the labels of Chen `at el.`:
- 
+
 ```
 dlhpcstarter -t mimic_cxr -c config/train_mimic_cxr_chen_cvt2distilgpt2.yaml --stages_module stages --train --test
 ```
 
 To train with IU X-Ray with the labels of Chen `at el.`:
- 
+
 ```
 dlhpcstarter -t mimic_cxr -c config/train_mimic_cxr_chen_cvt2distilgpt2.yaml --stages_module stages --train --test
 ```
@@ -207,5 +207,4 @@ See [`dlhpcstarter==0.1.2`](https://github.com/csiro-mlai/dl_hpc_starter_pack) f
 
 ## Help
 If you need help, please leave an issue and we will get back to you as soon as possible.
-
 

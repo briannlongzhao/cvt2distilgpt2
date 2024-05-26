@@ -38,7 +38,7 @@ class CvT(Module):
             is_encoder: bool = False,
             freeze_domain_params: bool = False,
             ckpt_dir: Optional[str] = None,
-            work_dir: Optional[str] = None,
+            work_dir: Optional[str] = '',
             **kwargs,
     ):
         """

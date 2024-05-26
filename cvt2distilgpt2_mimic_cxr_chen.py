@@ -34,7 +34,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
             prefetch_factor: int = 5,
             num_workers: int = 0,
             skip_data: bool = False,
-            work_dir: str = None,
+            work_dir: str = '',
             **kwargs,
     ):
         super().__init__()
@@ -58,7 +58,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
             self.work_dir,
             self.dataset_dir,
             "mimic_cxr_chen",
-            "annotation.json",
+            "merged_annotation.json",
         )
         self.dataset_dir = os.path.join(
             self.work_dir,
