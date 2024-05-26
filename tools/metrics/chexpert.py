@@ -5,6 +5,7 @@ import os
 import pandas as pd
 import time
 import torch
+import evaluate
 
 
 def calculate_nlg_metrics(preds, gts):
