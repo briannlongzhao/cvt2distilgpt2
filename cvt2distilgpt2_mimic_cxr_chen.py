@@ -34,7 +34,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
             prefetch_factor: int = 5,
             num_workers: int = 0,
             skip_data: bool = False,
-            work_dir,
+            work_dir: str = None,
             **kwargs,
     ):
         super().__init__()
