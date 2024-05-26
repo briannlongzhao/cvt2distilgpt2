@@ -34,6 +34,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
             prefetch_factor: int = 5,
             num_workers: int = 0,
             skip_data: bool = False,
+            work_dir,
             **kwargs,
     ):
         super().__init__()
@@ -41,7 +42,7 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
         self.warm_start_modules = warm_start_modules
         self.exp_dir_trial = exp_dir_trial
         self.dataset_dir = dataset_dir
-        self.ckpt_zoo_dir = ckpt_zoo_dir
+        self.ckpt_zoo_dir = os.path.join(workdir, ckpt_zoo_dir)
         self.mbatch_size = mbatch_size
         self.encoder_lr = encoder_lr
         self.decoder_lr = decoder_lr
@@ -50,14 +51,17 @@ class CvT2DistilGPT2MIMICXRChen(LightningModule):
         self.prefetch_factor = prefetch_factor
         self.num_workers = num_workers
         self.skip_data = skip_data
+        self.work_dir = work_dir
 
         # Paths:
         self.labels_file_path = os.path.join(
+            self.work_dir,
             self.dataset_dir,
             "mimic_cxr_chen",
             "annotation.json",
         )
         self.dataset_dir = os.path.join(
+            self.work_dir
             self.dataset_dir,
             "mimic_cxr_jpg",
             "physionet.org",
