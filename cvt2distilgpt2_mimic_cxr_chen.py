@@ -10,7 +10,7 @@ from torchvision import transforms
 from transformers.configuration_utils import PretrainedConfig
 
 from tools.cvt import CvT
-from tools.dataset.mimc_cxr_chen import TaskSubset
+from tools.dataset.mimic_cxr_chen import TaskSubset
 from tools.dataset.mimic_cxr_chen_tokenizer import TokenizerChen
 from tools.encoder_projection import EncoderPermuteProject
 from tools.metrics.chexbert import CheXbertMetrics
