@@ -200,7 +200,7 @@ dlhpcstarter -t mimic_cxr -c config/train_mimic_cxr_chen_cvt2distilgpt2.yaml --s
 To train with IU X-Ray with the labels of Chen `at el.`:
 
 ```
-dlhpcstarter -t mimic_cxr -c config/train_mimic_cxr_chen_cvt2distilgpt2.yaml --stages_module stages --train --test
+dlhpcstarter -t mimic_cxr -c config/train_iu_x_ray_chen_cvt2distilgpt2.yaml --stages_module stages --train --test
 ```
 
 See [`dlhpcstarter==0.1.2`](https://github.com/csiro-mlai/dl_hpc_starter_pack) for more options. 
